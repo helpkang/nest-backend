@@ -5,15 +5,14 @@ import { Repository } from 'typeorm';
 
 @Injectable()
 export class UserService {
-    constructor(
-        @InjectRepository(UserEntity)
-        private usersRepository: Repository<UserEntity>,
-      ) {}
+  constructor(
+    @InjectRepository(UserEntity)
+    private usersRepository: Repository<UserEntity>,
+  ) {}
 
-      getUser(): Promise<UserEntity> {
-        return this.usersRepository.findOne({
-            where: { id: 1 },
-        });
-      }
-    
+  getUser(): Promise<UserEntity> {
+    return this.usersRepository.findOne({
+      where: { id: 1 },
+    });
+  }
 }

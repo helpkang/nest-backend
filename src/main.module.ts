@@ -13,6 +13,7 @@ import { UserEntity } from './entitys/user/user.entity';
       database: 'mv',
       entities: [UserEntity],
       synchronize: true,
+      logging: true,
     }),
     UserControllerModule,
   ],

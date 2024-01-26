@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UserControllerModule } from './controllers/user-controller/user-controller.module';
-import { UserServiceModule } from './services/user-service/user-service.module';
+import { UserControllerModule } from './controllers/user/user-controller.module';
+import { UserEntity } from './entitys/user/user.entity';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -11,11 +11,11 @@ import { UserServiceModule } from './services/user-service/user-service.module';
       username: 'mv',
       password: 'mvmv123!',
       database: 'mv',
-      entities: [],
+      entities: [UserEntity],
       synchronize: true,
     }),
     UserControllerModule,
-    UserServiceModule,
   ],
+
 })
 export class MainModule {}

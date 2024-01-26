@@ -1,11 +1,10 @@
 import { NestFactory } from '@nestjs/core';
 import { MainModule } from './main.module';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import { winstonLogger } from './common/utils/winston.config';
 
 async function bootstrap() {
-  const app = await NestFactory.create(MainModule,{
-    logger: ['debug'],
-  });
+  const app = await NestFactory.create(MainModule, {});
 
   const config = new DocumentBuilder()
     .setTitle('Metaverse API')
@@ -14,7 +13,7 @@ async function bootstrap() {
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('sw', app, document);
-
+  app.useLogger(winstonLogger);
   await app.listen(3000);
 }
 bootstrap();

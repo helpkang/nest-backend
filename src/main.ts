@@ -3,7 +3,9 @@ import { MainModule } from './main.module';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 async function bootstrap() {
-  const app = await NestFactory.create(MainModule);
+  const app = await NestFactory.create(MainModule,{
+    logger: ['debug'],
+  });
 
   const config = new DocumentBuilder()
     .setTitle('Metaverse API')

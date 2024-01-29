@@ -17,7 +17,11 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "gen1": "pnpx openapi-typescript-codegen typescript-fetch -i http://localhost:3000/sw-yaml -o ./react-client/gen1",
+    "gen2": "pnpx @openapitools/openapi-generator-cli generate -g typescript-redux-query -i http://localhost:3000/sw-yaml -o ./react-client/gen2",
+    "gen3": "pnpx @openapitools/openapi-generator-cli generate -g typescript-fetch -i http://localhost:3000/sw-yaml -o ./react-client/gen3",
+    "gen4": "pnpx @openapitools/openapi-generator-cli generate -g typescript-axios -i http://localhost:3000/sw-yaml -o ./react-client/gen4"
   },
   "dependencies": {
     "@nestjs/common": "^9.0.0",
@@ -41,6 +45,8 @@
     "@nestjs/cli": "^9.0.0",
     "@nestjs/schematics": "^9.0.0",
     "@nestjs/testing": "^9.0.0",
+    "@reduxjs/toolkit": "^2.1.0",
+    "@rtk-query/codegen-openapi": "^1.2.0",
     "@types/express": "^4.17.13",
     "@types/jest": "29.2.4",
     "@types/node": "18.11.18",

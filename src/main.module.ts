@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserControllerModule } from './controllers/user/user-controller.module';
-import { UserEntity } from './entitys/user/user.entity';
+import { User } from './entitys/user/user.entity';
 import CustomLogger from './CustomLogger';
 @Module({
   imports: [
@@ -12,7 +12,7 @@ import CustomLogger from './CustomLogger';
       username: 'mv',
       password: 'mvmv123!',
       database: 'mv',
-      entities: [UserEntity],
+      entities: [User],
       synchronize: true,
       logging: true,
       logger: new CustomLogger(),

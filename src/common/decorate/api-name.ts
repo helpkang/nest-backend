@@ -1,6 +1,6 @@
 import { ApiOperation } from '@nestjs/swagger';
 
-export function DecoratorName(options: {
+export function ApiName(options: {
   operationId?: string;
   summary?: string;
   deprecated?: boolean;

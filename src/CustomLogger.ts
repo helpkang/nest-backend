@@ -1,7 +1,6 @@
 // CustomLogger.ts
 import { Logger, QueryRunner } from 'typeorm';
-import winston, { Logger as WinstonLogger } from 'winston';
-import { winstonLogger } from './common/utils/winston.config';
+import { winstonLogger } from './common/logger/winston.config';
 import { LoggerService } from '@nestjs/common';
 
 class CustomLogger implements Logger {
@@ -15,12 +14,26 @@ class CustomLogger implements Logger {
     this.winstonLogger.log(`[Query] ${query} -- Parameters: ${parameters}`);
   }
 
-  logQueryError(error: string, query: string, parameters?: any[], queryRunner?: QueryRunner) {
-    this.winstonLogger.error(`[Query Error] ${error} -- Query: ${query} -- Parameters: ${parameters}`);
+  logQueryError(
+    error: string,
+    query: string,
+    parameters?: any[],
+    queryRunner?: QueryRunner,
+  ) {
+    this.winstonLogger.error(
+      `[Query Error] ${error} -- Query: ${query} -- Parameters: ${parameters}`,
+    );
   }
 
-  logQuerySlow(time: number, query: string, parameters?: any[], queryRunner?: QueryRunner) {
-    this.winstonLogger.warn(`[Query Slow] ${time}ms -- Query: ${query} -- Parameters: ${parameters}`);
+  logQuerySlow(
+    time: number,
+    query: string,
+    parameters?: any[],
+    queryRunner?: QueryRunner,
+  ) {
+    this.winstonLogger.warn(
+      `[Query Slow] ${time}ms -- Query: ${query} -- Parameters: ${parameters}`,
+    );
   }
 
   logSchemaBuild(message: string, queryRunner?: QueryRunner) {

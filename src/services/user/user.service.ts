@@ -1,6 +1,8 @@
 // user.service.ts
-import { Injectable } from '@nestjs/common';
+import { Injectable, LoggerService } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { CJSLogger } from 'src/common/logger/cjs-logger';
+import { winstonLogger } from 'src/common/logger/winston.config';
 import { User } from 'src/entitys/user/user.entity';
 import { Repository } from 'typeorm';
 
@@ -9,13 +11,26 @@ export class UserService {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
+    private readonly logger: CJSLogger,
   ) {}
 
-  findAll(): Promise<User[]> {
-    return this.userRepository.find();
+  async findAll(): Promise<User[]> {
+    for (let i = 0; i < 10; i++) {
+      this.logger.log(`findAll service: ${i}`);
+      await this.userRepository.find();
+      await new Promise((resolve) => {
+        setTimeout(() => {
+          resolve(0);
+        }, 1000);
+      });
+    }
+    const ret = await this.userRepository.find();
+    this.logger.log(() => `findAll service: ${JSON.stringify(ret)}`);
+    return ret;
   }
 
   findOne(id: number): Promise<User | undefined> {
+    this.logger.log(`findAll service: ${id}`);
     return this.userRepository.findOne({ where: { id } });
   }
 

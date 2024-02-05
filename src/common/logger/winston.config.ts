@@ -3,6 +3,8 @@ import * as winston from 'winston';
 import * as moment from 'moment-timezone';
 import { dirname } from 'path';
 import * as winstonDaily from 'winston-daily-rotate-file';
+import { ClsServiceManager } from 'nestjs-cls';
+import { LoggerService } from '@nestjs/common';
 
 const env = process.env.NODE_ENV || 'development';
 const appendTimestamp = winston.format((info, opts) => {
@@ -24,15 +26,19 @@ const dailyOPtions = {
   json: false,
 };
 
-export const winstonLogger = WinstonModule.createLogger({
+export const winstonLogger: LoggerService = WinstonModule.createLogger({
   level: env === 'development' ? 'debug' : 'info',
   transports: [
     new winston.transports.Console({
       format: winston.format.combine(
         winston.format.colorize(),
-        winston.format.printf(
-          (info) => `${info.timestamp} ${info.level} [${process.pid}]: ${info.message}`,
-        ),
+        winston.format.printf((info) => {
+          const message =
+            info.message instanceof Function ? info.message() : info.message;
+          return `${info.timestamp} ${
+            info.level
+          } [${ClsServiceManager.getClsService().getId()}]: ${message}`;
+        }),
       ),
     }),
     new winstonDaily(dailyOPtions),
@@ -40,9 +46,9 @@ export const winstonLogger = WinstonModule.createLogger({
   exitOnError: false,
   format: winston.format.combine(
     appendTimestamp({ tz: 'Asia/Seoul' }),
-    winston.format.json(),
-    winston.format.printf((info) => {
-      return `${info.timestamp} ${info.level} [${process.pid}]: ${info.message}`;
-    }),
+    // winston.format.json(),
+    // winston.format.printf((info) => {
+    //   return `${info.timestamp} ${info.level} [${process.pid}]: ${info.message}`;
+    // }),
   ),
 });

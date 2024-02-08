@@ -8,16 +8,21 @@ import {
   Param,
   Body,
   LoggerService,
+  HttpException,
+  HttpStatus,
+  UseFilters,
 } from '@nestjs/common';
 
 import { ApiTags, ApiParam, ApiBody } from '@nestjs/swagger';
 import { ApiName } from 'src/common/decorate/api-name';
+import { HttpExceptionFilter } from 'src/common/filter/http-exception.filter';
 import { CJSLogger } from 'src/common/logger/cjs-logger';
 import { winstonLogger } from 'src/common/logger/winston.config';
 import { User } from 'src/entitys/user/user.entity';
 import { UserService } from 'src/services/user/user.service';
 import winston from 'winston/lib/winston/config';
-
+import { Http } from 'winston/lib/winston/transports';
+@UseFilters(new HttpExceptionFilter())
 @ApiTags('member/user')
 @Controller('member/user')
 export class UserController {
@@ -46,6 +51,7 @@ export class UserController {
   @ApiParam({ name: 'id', description: 'User ID' })
   async findOne(@Param('id') id: string): Promise<User | undefined> {
     this.logger.debug('get contoller:' + id);
+    throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
     return this.userService.findOne(Number(id));
   }
 
